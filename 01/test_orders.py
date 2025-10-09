@@ -61,7 +61,7 @@ class TestValidateOrder(unittest.TestCase):
 
     def test_invalid_method_out_of_allowed_method(self):
         bad_order = copy.deepcopy(self.order)
-        bad_order["delivery"]["method"] = ("Poza zakresem dozwolonych metod"," i druga do pary")
+        bad_order["delivery"]["method"] = ("Poza zakresem dozwolonych metod")
         with self.assertRaises(ValueError):
             validate_order(bad_order)
 
@@ -86,6 +86,8 @@ class TestValidateOrder(unittest.TestCase):
     #        ("delivery","method", None),
     #        ("delivery", "address", None)
      #       ]
+    # Chciałem testy None przeprowadzić w pętli ale wymiękłem ;) 
+    # Na piechotę robić kolejne metody z None... no DRY mi tu nie pozwala ;)
 
         
             
