@@ -1,6 +1,6 @@
 def validate_user(data):
-    email = data.get("email","")
-    if "@" not in email or not data.get("email").endswith((".pl", ".com")):
+    email = data.get("email") or ""
+    if "@" not in email or not email.endswith((".pl", ".com")):
         return False
     age = data.get("age")
     if not isinstance(age, int) or age <18:
