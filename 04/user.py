@@ -5,7 +5,7 @@ def validate_user(data):
     age = data.get("age")
     if not isinstance(age, int) or age <18:
         return False
-    name = data.get("name","")
+    name = data.get("name") or ""
     if not name.isalpha():
         return False
     return True
