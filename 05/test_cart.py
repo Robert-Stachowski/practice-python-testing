@@ -35,10 +35,22 @@ def test_remove_product(cart_with_items):
     
 
 def test_total_price(cart_with_items):
-    pass
+    expected_total = 17.6
+    result = cart_with_items.total_price()
+    assert result == expected_total
+    assert isinstance(result, float)
 
 def test_empty_cart_total(empty_cart):
-    pass
+    expected_total = 0
+    result = empty_cart.total_price()
+    assert result == expected_total
+    assert isinstance(result, float)
 
 def test_remove_nonexistent_product(empty_cart):
-    pass
+    len_before = len(empty_cart.items())
+    items_before = empty_cart.items()
+    empty_cart.remove_product("egg")
+    len_after = len(empty_cart.items())
+    items_after = empty_cart.items()
+    assert len_after == len_before
+    assert items_before == items_after
