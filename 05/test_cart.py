@@ -28,6 +28,10 @@ def test_remove_product(cart_with_items):
     cart_with_items.remove_product("apple")
     len_after = len(cart_with_items.items())
     assert len_after == len_before -1
+    # porównanie stanu oczekiwanej listy do stanu faktycznego po usunięciu
+    expected_names = {"banana","apple","kiwi"}
+    names_after_remove = {p["name"] for p in cart_with_items.items()}
+    assert names_after_remove == expected_names
     
 
 def test_total_price(cart_with_items):
