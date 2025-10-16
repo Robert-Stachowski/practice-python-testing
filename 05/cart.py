@@ -1,11 +1,13 @@
+import copy
+
 class Cart:
-    def __init__(self,products):
+    def __init__(self):
         self.products = []
         
     def add_product(self, product):
-        price = product.get("price")
         if "name" not in product or not product["name"]:
             raise ValueError("Brak pola name")
+        price = product.get("price")
         if "price" not in product or not isinstance(price,(int, float)):
             raise ValueError("niepoprawny format, lub brak ceny")
         self.products.append(product) 
@@ -15,3 +17,10 @@ class Cart:
             if product["name"] == product_name:
                 self.products.remove(product)
                 break
+
+    def total_price(self):
+        total_sum = sum(p["price"] for p in self.products)
+        return float(total_sum)
+    
+    def items(self):
+        return copy.deepcopy(self.products)
