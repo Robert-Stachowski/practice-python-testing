@@ -55,3 +55,7 @@ def test_failed_no_age(user_data):
 def test_failed_no_email(user_data):
     user_data["email"] = None
     assert validate_user(user_data) is False
+
+def test_failed_no_name(user_data):
+    user_data["name"] = None
+    assert validate_user(user_data) is False
