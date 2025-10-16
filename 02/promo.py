@@ -1,4 +1,3 @@
-import string
 
 def is_valid_promo(code):
     if not isinstance(code, str):
