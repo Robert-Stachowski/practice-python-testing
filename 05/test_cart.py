@@ -38,6 +38,20 @@ def test_remove_product(cart_with_items):
     # liczenie ile "jabłek" zostało w koszyku. (były dwa pierwotnie)
     assert [p["name"] for p in cart_with_items.items()].count("apple") == 1
 
+def test_remove_first_matching_product(cart_with_items):
+    # Przed usunięciem: dwa jabłka o różnych cenach
+
+    # sprawdzanie czy są dwa, oraz czy pierwsze wystąpienie się zgadza - cena 3.5
+    apples_before = [p for p in cart_with_items.items() if p["name"] == "apple"]
+    assert len(apples_before) == 2
+    assert apples_before[0]["price"] == 3.5
+
+    cart_with_items.remove_product("apple")
+
+    # sprawdzanie po usunięciu, czy zostało usunięte pierwsze wystąpienie, porównując ceny (celowo różne dla poprawnego testu, aby móc rozróżnić)
+    apple_after = [p for p in cart_with_items.items() if p["name"] == "apple"]
+    assert len(apple_after) == 1
+    assert apple_after[0]["price"] == 3.8
 
 def test_total_price(cart_with_items):
     expected_total = 17.6
