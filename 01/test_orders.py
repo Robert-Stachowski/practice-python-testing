@@ -16,13 +16,28 @@ class TestValidateOrder(unittest.TestCase):
     def test_validate_order_ok(self):
         result = validate_order(self.order)
         self.assertTrue(result)
-
-    def test_invalid_user_id(self):
+        
+# user
+    def test_invalid_user_id_string(self):
         bad_order = copy.deepcopy(self.order)
         bad_order["user_id"] = "Niepoprawne dane :)"
         with self.assertRaises(ValueError):
             validate_order(bad_order)
-    
+
+    def test_missing_user_id(self):
+        bad_order = copy.deepcopy(self.order)
+        del bad_order["user_id"]
+        with self.assertRaises(ValueError):
+            validate_order(bad_order)
+
+    def test_user_id_none(self):
+        bad_order = copy.deepcopy(self.order)
+        bad_order["user_id"] = None
+        with self.assertRaises(ValueError):
+            validate_order(bad_order)
+
+
+# items  
     def test_invalid_items_epty_list(self):
         bad_order = copy.deepcopy(self.order)
         bad_order["items"] = []
@@ -35,6 +50,19 @@ class TestValidateOrder(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_order(bad_order)
 
+    def test_missing_items(self):
+        bad_order = copy.deepcopy(self.order)
+        del bad_order["items"]
+        with self.assertRaises(ValueError):
+            validate_order(bad_order)
+
+    def test_items_none(self):
+        bad_order = copy.deepcopy(self.order)
+        bad_order["items"] = None
+        with self.assertRaises(ValueError):
+            validate_order(bad_order)
+
+#delivery
     def test_invalid_delivery_empty_dict(self):
         bad_order = copy.deepcopy(self.order)
         bad_order["delivery"] = {}
@@ -46,14 +74,27 @@ class TestValidateOrder(unittest.TestCase):
         bad_order["delivery"] = "1a1"
         with self.assertRaises(ValueError):
             validate_order(bad_order)
-    
-    def test_invalid_method_empty_set(self):
+
+    def test_missing_delivery(self):
         bad_order = copy.deepcopy(self.order)
-        bad_order["delivery"]["method"] = set()
+        del bad_order["delivery"]
         with self.assertRaises(ValueError):
             validate_order(bad_order)
 
-    def test_invalid_method_not_dict(self):
+    def test_delivery_none(self):
+        bad_order = copy.deepcopy(self.order)
+        bad_order["delivery"] = None
+        with self.assertRaises(ValueError):
+            validate_order(bad_order)
+
+# method    
+    def test_invalid_method_empty_string(self):
+        bad_order = copy.deepcopy(self.order)
+        bad_order["delivery"]["method"] = ""
+        with self.assertRaises(ValueError):
+            validate_order(bad_order)
+
+    def test_invalid_method_format(self):
         bad_order = copy.deepcopy(self.order)
         bad_order["delivery"]["method"] = "1a1"
         with self.assertRaises(ValueError):
@@ -65,6 +106,20 @@ class TestValidateOrder(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_order(bad_order)
 
+    def test_missing_method_in_delivery(self):
+        bad_order = copy.deepcopy(self.order)
+        del bad_order["delivery"]["method"]
+        with self.assertRaises(ValueError):
+            validate_order(bad_order)
+
+    def test_method_none(self):
+        bad_order = copy.deepcopy(self.order)
+        bad_order["delivery"]["method"] = None
+        with self.assertRaises(ValueError):
+            validate_order(bad_order)
+
+
+# address
     def test_invalid_address_not_string(self):
         bad_order = copy.deepcopy(self.order)
         bad_order["delivery"]["address"] = 10101001
@@ -77,23 +132,20 @@ class TestValidateOrder(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_order(bad_order)
 
-    #def test_fields_none_raise_valueerror(self):
-        
-    #    bad_type = [
-    #        ("user_id", None),
-    #        ("items", None),
-    #        ("delivery", None),
-    #        ("delivery","method", None),
-    #        ("delivery", "address", None)
-     #       ]
-    # Chciałem testy None przeprowadzić w pętli ale wymiękłem ;) 
-    # Na piechotę robić kolejne metody z None... no DRY mi tu nie pozwala ;)
+    def test_missing_address_in_delivery(self):
+        bad_order = copy.deepcopy(self.order)
+        del bad_order["delivery"]["address"]
+        with self.assertRaises(ValueError):
+            validate_order(bad_order)
 
-        
-            
+    def test_address_none(self):
+        bad_order = copy.deepcopy(self.order)
+        bad_order["delivery"]["address"] = None
+        with self.assertRaises(ValueError):
+            validate_order(bad_order)
 
 
-
+    
 
 
 if __name__ == "__main__":
