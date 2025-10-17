@@ -62,6 +62,15 @@ def test_remove_nonexistent_product(empty_cart):
     assert len_after == len_before
     assert items_before == items_after
 
+def test_remove_nonexistent_product_ful_cart(cart_with_items):
+    len_before = len(cart_with_items.items())
+    items_before = cart_with_items.items()
+    cart_with_items.remove_product("plum")
+    len_after = len(cart_with_items.items())
+    items_after = cart_with_items.items()
+    assert len_before == len_after
+    assert items_before == items_after
+
 
 def test_items_deepcopy(cart_with_items):
     total_before = cart_with_items.total_price()
