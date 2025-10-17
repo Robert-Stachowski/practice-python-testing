@@ -12,6 +12,8 @@ def user_data():
 def test_valid_user_data(user_data):
     assert validate_user(user_data) is True
 
+
+# Age
 def test_valid_age_min(user_data):
     user_data["age"] = 18
     assert validate_user(user_data) is True
@@ -22,8 +24,14 @@ def test_failed_age_under_min(user_data):
 
 def test_failed_age_string(user_data):
     user_data["age"] = "55"
-    assert validate_user(user_data) is False    
+    assert validate_user(user_data) is False   
 
+def test_failed_no_age(user_data):
+    user_data["age"] = None
+    assert validate_user(user_data) is False
+
+
+# Name
 def test_failed_name_user_data(user_data):
     user_data["name"] = "M9chał"
     assert validate_user(user_data) is False
@@ -36,6 +44,16 @@ def test_failed_name_user_data_space(user_data):
     user_data["name"] = " Michał "
     assert validate_user(user_data) is False
 
+def test_failed_empty_string(user_data):
+    user_data["name"] = ""
+    assert validate_user(user_data) is False  
+
+def test_failed_no_name(user_data):
+    user_data["name"] = None
+    assert validate_user(user_data) is False
+
+
+# email
 def test_failed_email_user_data_no_at_symbol(user_data):
     user_data["email"] = "jannnowak.przyklad.pl"
     assert validate_user(user_data) is False
@@ -44,18 +62,7 @@ def test_failed_email_user_data_tld(user_data):
     user_data["email"] = "jannnowak@przyklad.xo"
     assert validate_user(user_data) is False
 
-def test_failed_no_name(user_data):
-    user_data["name"] = ""
-    assert validate_user(user_data) is False
-
-def test_failed_no_age(user_data):
-    user_data["age"] = None
-    assert validate_user(user_data) is False
-
 def test_failed_no_email(user_data):
     user_data["email"] = None
     assert validate_user(user_data) is False
 
-def test_failed_no_name(user_data):
-    user_data["name"] = None
-    assert validate_user(user_data) is False
