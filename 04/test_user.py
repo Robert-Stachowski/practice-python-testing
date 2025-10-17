@@ -52,6 +52,10 @@ def test_failed_no_name(user_data):
     user_data["name"] = None
     assert validate_user(user_data) is False
 
+def test_valid_name_with_polish_chars(user_data):
+    user_data["name"] = "Łukasz"
+    assert validate_user(user_data) is True
+
 
 # email
 def test_failed_email_user_data_no_at_symbol(user_data):
@@ -66,3 +70,6 @@ def test_failed_no_email(user_data):
     user_data["email"] = None
     assert validate_user(user_data) is False
 
+def test_failed_email_user_data_space(user_data):
+    user_data["email"] = " jannnowak@przyklad.pl "
+    assert validate_user(user_data) is False
