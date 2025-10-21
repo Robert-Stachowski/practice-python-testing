@@ -16,8 +16,22 @@ class TestValidateOrder(unittest.TestCase):
     def test_validate_order_ok(self):
         result = validate_order(self.order)
         self.assertTrue(result)
-        
+
+    def test_invalid_dict_order(self):
+        bad_order = None
+        with self.assertRaises(ValueError):
+            validate_order(bad_order)
+
+    def test_invalid_dict_order_01(self):
+        bad_order = " "
+        with self.assertRaises(ValueError):
+            validate_order(bad_order)
+
+
+
 # user
+    
+
     def test_invalid_user_id_string(self):
         bad_order = copy.deepcopy(self.order)
         bad_order["user_id"] = "Niepoprawne dane :)"
@@ -35,6 +49,13 @@ class TestValidateOrder(unittest.TestCase):
         bad_order["user_id"] = None
         with self.assertRaises(ValueError):
             validate_order(bad_order)
+
+    def test_user_id_bool(self):
+        bad_order = copy.deepcopy(self.order)
+        bad_order["user_id"] = True
+        with self.assertRaises(ValueError):
+            validate_order(bad_order)
+
 
 
 # items  
@@ -128,7 +149,7 @@ class TestValidateOrder(unittest.TestCase):
 
     def test_invalid_address_empty(self):
         bad_order = copy.deepcopy(self.order)
-        bad_order["delivery"]["address"] = ""
+        bad_order["delivery"]["address"] = " "
         with self.assertRaises(ValueError):
             validate_order(bad_order)
 
