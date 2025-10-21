@@ -24,7 +24,78 @@ def test_add(cart_with_items):
     len_after = len(cart_with_items.items())
     assert len_after == len_before+1
     assert new_product in cart_with_items.items()
+
+def test_add_none_name(cart_with_items):
+    len_before = len(cart_with_items.items())
+    new_product = {"name": None, "price": 8}    
+    with pytest.raises(ValueError) as e:
+        cart_with_items.add(new_product)
+    len_after = len(cart_with_items.items())
+    assert "Niepoprawny format" in str(e.value)
+    assert len_after == len_before
+
+def test_add_true_price(cart_with_items):
+    len_before = len(cart_with_items.items())
+    new_product = {"name": "peach", "price":False}    
+    with pytest.raises(ValueError) as e:
+        cart_with_items.add(new_product)
+    len_after = len(cart_with_items.items())
+    assert "niepoprawny format" in str(e.value)
+    assert len_after == len_before
+
+def test_add_true_name(cart_with_items):
+    len_before = len(cart_with_items.items())
+    new_product = {"name":True, "price":1}    
+    with pytest.raises(ValueError) as e:
+        cart_with_items.add(new_product)
+    len_after = len(cart_with_items.items())
+    assert "Niepoprawny format" in str(e.value)
+    assert len_after == len_before
+
+def test_add_none_price(cart_with_items):
+    len_before = len(cart_with_items.items())
+    new_product = {"name": "mango", "price": None}    
+    with pytest.raises(ValueError) as e:
+        cart_with_items.add(new_product)
+    len_after = len(cart_with_items.items())
+    assert "niepoprawny format" in str(e.value)
+    assert len_after == len_before
+
+def test_add_no_price(cart_with_items):
+    len_before = len(cart_with_items.items())
+    new_product = {"name": "mango"}    
+    with pytest.raises(ValueError) as e:
+        cart_with_items.add(new_product)
+    len_after = len(cart_with_items.items())
+    assert "brak pola cena" in str(e.value)
+    assert len_after == len_before
     
+def test_add_no_name(cart_with_items):
+    len_before = len(cart_with_items.items())
+    new_product = {"price": 8}    
+    with pytest.raises(ValueError) as e:
+        cart_with_items.add(new_product)
+    len_after = len(cart_with_items.items())
+    assert "Brak pola name" in str(e.value)
+    assert len_after == len_before
+
+def test_add_integer_name(cart_with_items):
+    len_before = len(cart_with_items.items())
+    new_product = {"name": 123, "price": 12}    
+    with pytest.raises(ValueError) as e:
+        cart_with_items.add(new_product)
+    len_after = len(cart_with_items.items())
+    assert "Niepoprawny format" in str(e.value)
+    assert len_after == len_before
+
+def test_add_string_price(cart_with_items):
+    len_before = len(cart_with_items.items())
+    new_product = {"name": "mango", "price": "dwa"}    
+    with pytest.raises(ValueError) as e:
+        cart_with_items.add(new_product)
+    len_after = len(cart_with_items.items())
+    assert "niepoprawny format" in str(e.value)
+    assert len_after == len_before
 
 def test_remove(cart_with_items):
     len_before = len(cart_with_items.items())
