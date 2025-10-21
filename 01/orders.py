@@ -1,7 +1,10 @@
 def validate_order(order):
+
+    if not isinstance(order, dict):
+        raise ValueError("Błąd danych")
     
     user_id = order.get("user_id")
-    if not isinstance(user_id, int):
+    if not isinstance(user_id, int) or isinstance(user_id,bool):
         raise ValueError("Nieprawidłowy user_id")
     
     items = order.get("items")
