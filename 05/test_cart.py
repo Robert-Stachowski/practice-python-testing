@@ -25,9 +25,52 @@ def test_add(cart_with_items):
     assert len_after == len_before+1
     assert new_product in cart_with_items.items()
 
+def test_add_no_dict(cart_with_items):
+    new_product = " "
+    with pytest.raises(ValueError) as e:
+        cart_with_items.add(new_product)
+    assert "Błędne dane" in str(e.value)
+
+    
+def test_add_none(cart_with_items):
+    new_product = None
+    with pytest.raises(ValueError) as e:
+        cart_with_items.add(new_product)
+    assert "Błędne dane" in str(e.value)
+
+
+
+def test_add_space_name(cart_with_items):
+    len_before = len(cart_with_items.items())
+    new_product = {"name": " blabla  ", "price": 8}    
+    with pytest.raises(ValueError) as e:
+        cart_with_items.add(new_product)
+    len_after = len(cart_with_items.items())
+    assert "Niepoprawny format" in str(e.value)
+    assert len_after == len_before
+
+def test_add_inner_space_name(cart_with_items):
+    len_before = len(cart_with_items.items())
+    new_product = {"name": "green apple", "price": 5}
+    cart_with_items.add(new_product)
+    len_after = len(cart_with_items.items())
+    assert len_after == len_before + 1
+    assert any(p["name"] == "green apple" and p["price"] == 5 for p in cart_with_items.items())
+
+
+
 def test_add_none_name(cart_with_items):
     len_before = len(cart_with_items.items())
     new_product = {"name": None, "price": 8}    
+    with pytest.raises(ValueError) as e:
+        cart_with_items.add(new_product)
+    len_after = len(cart_with_items.items())
+    assert "Niepoprawny format" in str(e.value)
+    assert len_after == len_before
+
+def test_add_empty_string_name(cart_with_items):
+    len_before = len(cart_with_items.items())
+    new_product = {"name": " ", "price": 8}    
     with pytest.raises(ValueError) as e:
         cart_with_items.add(new_product)
     len_after = len(cart_with_items.items())
